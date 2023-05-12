@@ -1,25 +1,33 @@
 "use strict";
+const adminProcess = require('../process/adminProcess')
 
-const router = (app) => {
-  app.post("/admin", function (req, res) {
-    console.log(`Ya estoy en mi ruta POST ${req.body}`);
-    res.send("Post de admins");
+const router = (app, db) => {
+  app.get("/admin", async function (req, res) {
+    try {
+      const data = await adminProcess.obtenerAdmins(req, db);
+      console.log('data ', data);
+      res.send(data);
+    } catch (error) {
+      console.log(error);
+    }
   });
 
-  app.get("/admin/:id", function (req, res) {
-    console.log(`Ya estoy en mi ruta GET ${req.params.id}`);
-    const data = [{ id: 1, nombre: "Daniel" }];
-    res.send(data);
+  app.post("/admin", async function (req, res) {
+    try {
+      const data = adminProcess.crearAdmins(req, db);
+      res.send(data);
+    } catch (error) {
+      console.log(error);
+    }
   });
 
-  app.put("/admin", function (req, res) {
-    console.log(`Estoy en una modificacion`);
-    res.send("Get de admins");
-  });
-
-  app.delete("/admin", function (req, res) {
-    console.log(`Estoy en una seccion`);
-    res.send("Get de admins");
+  app.put("/admin/password/:id", async function (req, res) {
+    try {
+      const data = await adminProcess.modificarAdmins(req, db);
+      res.send(data);
+    } catch (error) {
+      console.log(error);
+    }
   });
 };
 

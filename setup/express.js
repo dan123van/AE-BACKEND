@@ -1,5 +1,5 @@
-let setup = (app) => {
-    require('../src/routes/index')(app)
+let setup = (app, db) => {
+    require('../src/routes/index')(app, db)
 }
 
 module.exports = setup;
